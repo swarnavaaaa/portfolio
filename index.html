@@ -7,7 +7,7 @@
     <meta name="description" content="Portfolio of Swarnava, a Product Strategist and UX Designer building simple, functional web experiences.">
     <link rel="stylesheet" href="index.css">
     <!-- Supabase -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -215,7 +215,8 @@
                 btn.style.background = '#4ade80';
                 form.reset();
             } catch (err) {
-                console.error('Error:', err.message);
+                console.error('Error:', err);
+                alert('Submission failed: ' + (err.message || 'Unknown error'));
                 btn.innerText = 'FAILED!';
                 btn.style.background = '#fb7185';
             } finally {
