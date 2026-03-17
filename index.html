@@ -6,6 +6,8 @@
     <title>Swarnava | Product Strategist & UX Designer</title>
     <meta name="description" content="Portfolio of Swarnava, a Product Strategist and UX Designer building simple, functional web experiences.">
     <link rel="stylesheet" href="index.css">
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -180,18 +182,49 @@
             });
         });
 
-        // Form Submission (Visual Feedback)
-        document.getElementById('contact-form').addEventListener('submit', (e) => {
+        // Initialize Supabase
+        const supabaseUrl = 'https://zpnwnxclglopfkltevkp.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpwbndueGNsZ2xvcGZrbHRldmtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NDYwMjMsImV4cCI6MjA4OTMyMjAyM30.erbWogZz5tfoLYj8zmDBX_LomQdwiE7_HL-azRNLYy4';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Form Submission (Supabase Integration)
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = e.target.querySelector('button');
+            const form = e.target;
+            const btn = form.querySelector('button');
             const originalText = btn.innerText;
-            btn.innerText = 'SENT!';
-            btn.style.background = '#4ade80';
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = 'var(--primary-color)';
-                e.target.reset();
-            }, 3000);
+
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Simple loading state
+            btn.innerText = 'SENDING...';
+            btn.disabled = true;
+
+            try {
+                const { error } = await _supabase
+                    .from('contact_messages')
+                    .insert([{ name, email, message }]);
+
+                if (error) throw error;
+
+                // Success visual feedback
+                btn.innerText = 'SENT!';
+                btn.style.background = '#4ade80';
+                form.reset();
+            } catch (err) {
+                console.error('Error:', err.message);
+                btn.innerText = 'FAILED!';
+                btn.style.background = '#fb7185';
+            } finally {
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = 'var(--primary-color)';
+                    btn.disabled = false;
+                }, 3000);
+            }
         });
     </script>
 </body>
