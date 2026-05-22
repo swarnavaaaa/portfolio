@@ -23,6 +23,8 @@ body {
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
     overflow-x: hidden;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 h1, h2, h3, .brand {
@@ -295,12 +297,46 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .hero {
+        padding: 3rem 0;
+    }
+
+    .hero-box {
+        padding: 1.5rem;
+    }
+
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        word-break: break-word;
     }
     
+    section {
+        padding: 3rem 0;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
     .about-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-image {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
     }
     
     .nav-links {
